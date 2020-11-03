@@ -1,7 +1,7 @@
 #include "inodeyou.h"
 
 // Get list of inodes from tsk functions
-int get_tsk_inodes(const char vol[], char dir[])
+inodenode *get_tsk_inodes(const char vol[], char dir[])
 {
     const TSK_TCHAR *const images[1] = {vol};
     TSK_IMG_INFO *img = tsk_img_open(1, images, TSK_IMG_TYPE_DETECT, 0);
@@ -24,31 +24,32 @@ int get_tsk_inodes(const char vol[], char dir[])
         exit(1);
     }
 
-    FILE *datafile = fopen(TSK_INODES_FILE, "w");
-    // inodenode *tsk_ll = create_inode_ll(-1);
-    // if (tsk_ll == NULL)
-    // {
-    //     exit(1);
-    // }
+    // FILE *datafile = fopen(TSK_INODES_FILE, "w");
+    inodenode *tsk_ll = create_inode_ll(-1);
+    if (tsk_ll == NULL)
+    {
+        printf("Error: Failed to create tsk_ll inodenode node\n");
+        exit(1);
+    }
 
     // Finds inode number (dir_inode_num) of dir (/home/user1/)
     TSK_INUM_T dir_inode_num;
     tsk_fs_ifind_path(fs, dir, &dir_inode_num);
-    tsk_walk_path(fs, dir_inode_num, datafile);
+    // tsk_walk_path(fs, dir_inode_num, datafile);
+    tsk_ll = tsk_walk_path(fs, dir_inode_num, tsk_ll);
 
-    fclose(datafile);
-
-    // printf("Reached here");
+    // fclose(datafile);
 
     // Cleanup
     tsk_img_close(img);
     tsk_fs_close(fs);
 
-    return 0;
+    return tsk_ll;
 }
 
 // Write inode numbers of inodes in current dir into tsk_inodes.txt
-int tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, FILE *file)
+// int tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, FILE *file)
+inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
 {
     TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
     if (cur == NULL)
@@ -80,22 +81,25 @@ int tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, FILE *file)
             // Regular file
             // TODO: Check if file is recently deleted
             inode_num = tsk_dirent->meta->addr;
-            printf("%d (file)\n", (int)inode_num);
-            fprintf(file, "%i\n", (int)inode_num); // print current inode number of regular file to FILE* file
+            // printf("%d (file)\n", (int)inode_num);
+            // fprintf(file, "%i\n", (int)inode_num); // print current inode number of regular file to FILE* file
+            tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
         }
         else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR && tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
         {
             // Directory
             inode_num = tsk_dirent->meta->addr;
-            printf("%d (dir)\n", (int)inode_num); // print current inode number of dir to FILE* file
-            fprintf(file, "%i\n", (int)inode_num);
+            // printf("%d (dir)\n", (int)inode_num); // print current inode number of dir to FILE* file
+            // fprintf(file, "%i\n", (int)inode_num);
+            tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
             // Uncomment for recursive funciton to serach through directories recursively
             // tsk_walk_path(fs, inode_num, file);
         }
     }
     // Cleanup
     tsk_fs_dir_close(cur);
-    return 0;
+
+    return tsk_ll;
 }
 
 // Prints out pwd of given inode number

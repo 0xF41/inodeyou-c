@@ -49,3 +49,12 @@ void destroy_inode_ll(inodenode *head)
         head = tmp;
     }
 }
+
+// Print inodenode linked list
+void print_inode_ll(inodenode *head)
+{
+    for (inodenode *tmp = head; tmp != NULL; tmp = tmp->next)
+    {
+        printf("%li\n", tmp->num);
+    }
+}

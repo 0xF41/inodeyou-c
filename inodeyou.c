@@ -41,69 +41,31 @@ int main(int argc, char *argv[])
     printf("Volume: %s      Mount Point: %s     Starting Directiory: %s\n", volume, mount_point, root);
 
     // http://www.sleuthkit.org/sleuthkit/docs/api-docs/4.3/fspage.html
-    get_tsk_inodes(volume, root);
-    get_fs_inodes(root);
+    inodenode *tsk_ll_head = get_tsk_inodes(volume, root);
+    if (tsk_ll_head == NULL)
+    {
+        printf("Error: tsk_ll_head is NULL\n");
+        exit(1);
+    }
+    inodenode *fs_ll_head = get_fs_inodes(root);
+    if (fs_ll_head == NULL)
+    {
+        printf("Error: fs_ll_head is NULL\n");
+        exit(1);
+    }
 
-    // TODO: Find sorting algorihm and other algorihm to compare sum shit
+    print_inode_ll(tsk_ll_head);
+    printf("=======\n");
+    print_inode_ll(fs_ll_head);
 
-    // get_tsk_inodes in array A
-    // get_fs_inodes in array B
-    // for element in B:
-    //     if element in A
-    //         return True
-    //     else
-    //         return False
+    // TODO: Compare tsk_ll_head and fs_ll_head linked list
 
-    // FILE *tsk_file = fopen(TSK_INODES_FILE, "r");
-    // if (tsk_file == NULL)
-    // {
-    //     // printf("Error: %s does not exist\n", TSK_INODES_FILE);
-    //     file_err_msg(TSK_INODES_FILE);
-    // }
-    // int tsk_inode_count = countlines(tsk_file);
-    // int tsk_inode_array[tsk_inode_count];
+    // Cleanup code
+    destroy_inode_ll(tsk_ll_head);
+    destroy_inode_ll(fs_ll_head);
 
-    // // TODO: Fix comparison of fs_inodes.txt and tsk_inodes.txt
-    // FILE *fs_file = fopen(FS_INODES_FILE, "r");
-    // if (fs_file == NULL)
-    // {
-    //     file_err_msg(FS_INODES_FILE);
-    // }
-    // int fs_inode_count = countlines(fs_file);
-    // int fs_inode_array[fs_inode_count];
-
-    // char buffer[BUF_LEN];
-    // for (int i = 0; i < tsk_inode_count; i++)
-    // {
-    //     fgets(buffer, sizeof(buffer), tsk_file);
-    //     tsk_inode_array[i] = atoi(buffer);
-    // }
-
-    // for (int i = 0; i < tsk_inode_count; i++)
-    // {
-    //     printf("%i\n", tsk_inode_array[i]);
-    // }
-
-    // // Cleanup
-    // fclose(tsk_file);
-    // fclose(fs_file);
     return 0;
 }
-
-// int countlines(FILE *file)
-// {
-//     int lines = 0;
-//     char ch;
-//     while (!feof(file))
-//     {
-//         ch = fgetc(file);
-//         if (ch == '\n')
-//         {
-//             lines++;
-//         }
-//     }
-//     return lines;
-// }
 
 // clang inodeyou.c -ltsk -o inodeyou
 // Usage: "sudo ./inodeyou /dev/sdb / /"

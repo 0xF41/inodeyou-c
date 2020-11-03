@@ -1,6 +1,6 @@
 #include "inodeyou.h"
 
-int get_fs_inodes(const char path[])
+inodenode *get_fs_inodes(const char path[])
 {
     struct stat stats;
     // https://codeforwin.org/2018/03/c-program-find-file-properties-using-stat-function.html
@@ -20,10 +20,16 @@ int get_fs_inodes(const char path[])
     }
     struct dirent *entry;
     // struct stat filestat;
-    FILE *datafilefs = fopen(FS_INODES_FILE, "w");
-    if (datafilefs == NULL)
+    // FILE *datafilefs = fopen(FS_INODES_FILE, "w");
+    // if (datafilefs == NULL)
+    // {
+    //     printf("Error: Unable to open %s", "fs_inodes.txt");
+    //     exit(1);
+    // }
+    inodenode *fs_ll = create_inode_ll(-1);
+    if (fs_ll == NULL)
     {
-        printf("Error: Unable to open %s", "fs_inodes.txt");
+        printf("Error: Failed to create fs_ll inodenode node\n");
         exit(1);
     }
 
@@ -39,7 +45,7 @@ int get_fs_inodes(const char path[])
                 continue;
             }
             inode_number = (int)entry->d_ino;
-            printf("%s (Dir)\n", entry->d_name);
+            // printf("%s (Dir)\n", entry->d_name);
         }
         // File
         else if (entry->d_type == 8)
@@ -47,12 +53,13 @@ int get_fs_inodes(const char path[])
             // Regular file
             inode_number = (int)entry->d_ino;
         }
-        fprintf(datafilefs, "%i\n", inode_number);
+        // fprintf(datafilefs, "%i\n", inode_number);
+        fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
     }
 
     // Cleanup
     closedir(folder);
-    fclose(datafilefs);
+    // fclose(datafilefs);
 
-    return 0;
+    return fs_ll;
 }
