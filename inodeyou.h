@@ -1,7 +1,6 @@
 #ifndef INODEYOU_H_INCLUDED
 #define INODEYOU_H_INCLUDED
 
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
