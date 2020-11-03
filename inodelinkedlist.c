@@ -58,3 +58,13 @@ void print_inode_ll(inodenode *head)
         printf("%li\n", tmp->num);
     }
 }
+
+int count_inode_ll(inodenode *head)
+{
+    int count = 0;
+    for (inodenode *tmp = head; tmp != NULL; tmp = tmp->next)
+    {
+        count++;
+    }
+    return count;
+}

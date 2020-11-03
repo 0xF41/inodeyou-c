@@ -1,5 +1,7 @@
 #include "inodeyou.h"
 
+// Usage: "sudo ./inodeyou /dev/sda1 / /home/user1"
+
 int main(int argc, char *argv[])
 {
     // Check proper arguments
@@ -40,23 +42,50 @@ int main(int argc, char *argv[])
 
     printf("Volume: %s      Mount Point: %s     Starting Directiory: %s\n", volume, mount_point, root);
 
+    inodenode *tsk_ll_head = NULL;
+    inodenode *fs_ll_head = NULL;
+    int tsk_ll_length, fs_ll_length;
+
     // http://www.sleuthkit.org/sleuthkit/docs/api-docs/4.3/fspage.html
-    inodenode *tsk_ll_head = get_tsk_inodes(volume, root);
+    tsk_ll_head = get_tsk_inodes(volume, root);
     if (tsk_ll_head == NULL)
     {
         printf("Error: tsk_ll_head is NULL\n");
         exit(1);
     }
-    inodenode *fs_ll_head = get_fs_inodes(root);
+    fs_ll_head = get_fs_inodes(root);
     if (fs_ll_head == NULL)
     {
         printf("Error: fs_ll_head is NULL\n");
         exit(1);
     }
 
-    print_inode_ll(tsk_ll_head);
-    printf("=======\n");
-    print_inode_ll(fs_ll_head);
+    tsk_ll_length = count_inode_ll(tsk_ll_head);
+    fs_ll_length = count_inode_ll(fs_ll_head);
+    // printf("%d | %d\n", tsk_ll_length, fs_ll_length);
+
+    // Check for disreptencies between tsk linked list and fs linked list
+    if (tsk_ll_length >= fs_ll_length)
+    {
+        for (inodenode *tmp = tsk_ll_head; tmp != NULL; tmp = tmp->next)
+        {
+            // printf("%ld | %d", tmp->num, find_inode_ll(fs_ll_head, tmp->num));
+            if (find_inode_ll(fs_ll_head, tmp->num) == 0)
+            {
+                printf("Warning: Missing inode %ld\n", tmp->num);
+            }
+        }
+    }
+    if (fs_ll_length >= tsk_ll_length)
+    {
+        for (inodenode *tmp = fs_ll_head; tmp != NULL; tmp = tmp->next)
+        {
+            if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
+            {
+                printf("Warning: Missing inode %ld\n", tmp->num);
+            }
+        }
+    }
 
     // TODO: Compare tsk_ll_head and fs_ll_head linked list
 
@@ -66,6 +95,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-// clang inodeyou.c -ltsk -o inodeyou
-// Usage: "sudo ./inodeyou /dev/sdb / /"
