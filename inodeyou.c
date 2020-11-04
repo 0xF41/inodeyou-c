@@ -76,6 +76,11 @@ int main(int argc, char *argv[])
         printf("Error: tsk_ll_head is NULL\n");
         exit(1);
     }
+    if (tsk_ll_head->num == -1)
+    {
+        printf("Error: Method 1 linked list not populated.\n");
+        exit(1);
+    }
 
     getrusage(RUSAGE_SELF, &after);
     // Calculate time taken for method 1
@@ -90,6 +95,11 @@ int main(int argc, char *argv[])
         printf("Error: fs_ll_head is NULL\n");
         exit(1);
     }
+    if (fs_ll_head->num == -1)
+    {
+        printf("Error: Method 2 linked list not populated.\n");
+        exit(1);
+    }
 
     getrusage(RUSAGE_SELF, &after);
     // Calculate time taken for method 2
@@ -101,7 +111,7 @@ int main(int argc, char *argv[])
     // Get length of linked lists
     tsk_ll_length = count_inode_ll(tsk_ll_head);
     fs_ll_length = count_inode_ll(fs_ll_head);
-    // printf("%d | %d\n", tsk_ll_length, fs_ll_length);
+    printf("%d | %d\n", tsk_ll_length, fs_ll_length);
 
     // Check for disreptencies between tsk linked list and fs linked list
     if (tsk_ll_length > fs_ll_length)
