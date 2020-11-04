@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld (%s)\n", tmp->num);
+                printf("[WARNING] Missing inode %ld\n", tmp->num);
                 inode_to_pwd(volume, tmp->num);
                 evil_hit++;
             }
