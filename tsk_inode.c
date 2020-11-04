@@ -103,8 +103,21 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
 }
 
 // Prints out pwd of given inode number
-void inode_to_pwd(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num)
+void inode_to_pwd(const char vol[], TSK_INUM_T dir_ino_num)
 {
+    const TSK_TCHAR *const images[1] = {vol};
+    TSK_IMG_INFO *img = tsk_img_open(1, images, TSK_IMG_TYPE_DETECT, 0);
+    if (img == NULL)
+    {
+        printf("Error: %s is an invalid volume\n", vol);
+        exit(1);
+    }
+    TSK_FS_INFO *fs = tsk_fs_open_img(img, 0, TSK_FS_TYPE_DETECT);
+    if (fs == NULL)
+    {
+        printf("Error: Only type ext2/3/4 supported\n");
+        exit(1);
+    }
     // Copied from ffind.cpp lel
     TSK_FS_ATTR_TYPE_ENUM type = 0;
     uint8_t id_used = 0, type_used = 0;
@@ -113,5 +126,10 @@ void inode_to_pwd(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num)
     int dir_walk_flags = TSK_FS_DIR_WALK_FLAG_RECURSE;
     dir_walk_flags |= TSK_FS_DIR_WALK_FLAG_ALLOC; // Filter for undeleted entries only
 
+    // Prints out pwd of inode number
     tsk_fs_ffind(fs, (TSK_FS_FFIND_FLAG_ENUM)ffind_flags, dir_ino_num, type, type_used, id, id_used, (TSK_FS_DIR_WALK_FLAG_ENUM)dir_walk_flags);
+
+    // Cleanup
+    tsk_img_close(img);
+    tsk_fs_close(fs);
 }

@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
     system("/bin/sync");
     system("/bin/echo 3 > /proc/sys/vm/drop_caches");
 
+    // Print out arguments used in current scan
     printf("Volume: %s      Mount Point: %s     Starting Directiory: %s\n", volume, mount_point, root);
 
     // Output of method 1 and 2 stored in separate inodenode linked lists
@@ -111,6 +112,7 @@ int main(int argc, char *argv[])
             if (find_inode_ll(fs_ll_head, tmp->num) == 0)
             {
                 printf("[WARNING] Missing inode %ld\n", tmp->num);
+                inode_to_pwd(volume, tmp->num);
                 evil_hit++;
             }
         }
@@ -121,7 +123,8 @@ int main(int argc, char *argv[])
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld\n", tmp->num);
+                printf("[WARNING] Missing inode %ld (%s)\n", tmp->num);
+                inode_to_pwd(volume, tmp->num);
                 evil_hit++;
             }
         }
@@ -133,7 +136,8 @@ int main(int argc, char *argv[])
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld\n", tmp->num);
+                printf("[WARNING] Missing inode %ld (%s)\n", tmp->num);
+                inode_to_pwd(volume, tmp->num);
                 evil_hit++;
             }
         }
