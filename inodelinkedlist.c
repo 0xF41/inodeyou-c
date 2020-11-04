@@ -59,6 +59,7 @@ void print_inode_ll(inodenode *head)
     }
 }
 
+// Count length on inodenode linked list
 int count_inode_ll(inodenode *head)
 {
     int count = 0;

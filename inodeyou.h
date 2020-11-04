@@ -1,13 +1,15 @@
 #ifndef INODEYOU_H_INCLUDED
 #define INODEYOU_H_INCLUDED
 
+#include <ctype.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
-#include <dirent.h>
-
+#include <sys/resource.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <sys/types.h>
 
 // The sleuth kit header files
@@ -20,8 +22,8 @@
 #define BUF_LEN 100
 #define USAGE "Usage: ./inodeyou-c filesystem mountpoint [directory] (./inodeyou-c /dev/sda1 / /)\n"
 #define CHECK_ROOT_ERR_MSG "You must be root to perform this function!\n"
-// #define TSK_INODES_FILE "tsk_inodes.txt"
-// #define FS_INODES_FILE "fs_inodes.txt"
+#define SAFE_RESULT "\n[OK] There are no files or directiories that are being currently hidden by a rootkit.\n"
+#define WARNING_RESULT "\n[WARNING] There are %d files and directories that are currenty hidden by a rootkit.\n"
 
 #define usage() \
     printf(USAGE);
@@ -37,12 +39,9 @@ typedef struct inode_ll
 } inodenode;
 
 // For tsk & fs mechanisms (tsk_inode.c & fs_inode.c)
-// int get_tsk_inodes(const char vol[], char root[]);
-// int tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, FILE *file);
 inodenode *get_tsk_inodes(const char vol[], char dir[]);
 inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll);
 void inode_to_pwd(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num);
-// int get_fs_inodes(const char path[]);
 inodenode *get_fs_inodes(const char path[]);
 
 // For linked list data structure
@@ -52,5 +51,8 @@ int find_inode_ll(inodenode *head, long val);
 void destroy_inode_ll(inodenode *head);
 void print_inode_ll(inodenode *head);
 int count_inode_ll(inodenode *head);
+
+// For calcualting time taken
+double calculate_time(const struct rusage *b, const struct rusage *a);
 
 #endif
