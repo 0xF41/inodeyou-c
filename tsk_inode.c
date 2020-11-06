@@ -89,8 +89,6 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
         {
             // Regular file
             inode_num = tsk_dirent->meta->addr;
-            printf("entered file\n");
-
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
         }
         else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR && tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
