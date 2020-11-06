@@ -20,7 +20,7 @@ For debian-based distros:
 ```
 sudo apt update
 sudo apt install gcc
-sudo apt install tsklib-dev
+sudo apt install libtsk-dev
 sudo git clone https://github.com/fy-fy-fy/inodeyou-c.git
 cd ./inodeyou-c/
 sudo make
