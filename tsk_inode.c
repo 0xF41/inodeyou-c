@@ -47,8 +47,7 @@ inodenode *get_tsk_inodes(const char vol[], char dir[])
     return tsk_ll;
 }
 
-// Write inode numbers of inodes in current dir into tsk_inodes.txt
-// int tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, FILE *file)
+// Returns linked list of inodes found by tsk functions
 inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
 {
     TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
@@ -64,7 +63,6 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
     // tsk_fs_dir_getsize() returns number inodes in current directory
     for (int i = 0, n = tsk_fs_dir_getsize(cur); i < n; i++)
     {
-        printf("entered loop");
         tsk_dirent = tsk_fs_dir_get(cur, i); // Get current inode
         if (tsk_dirent == NULL)
         {
@@ -76,6 +74,12 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             printf("Error: Failed to get directory entry (index %i)\n", i);
             exit(1);
         }
+
+        if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
+        {
+            // Check if file is recently deleted, if it is, skip.
+            continue;
+        }
         if (!strcmp(tsk_dirent->name->name, ".") || !strcmp(tsk_dirent->name->name, ".."))
         {
             // . or ..
@@ -84,10 +88,7 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
         else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_REG && tsk_dirent->meta->type == TSK_FS_META_TYPE_REG)
         {
             // Regular file
-            // TODO: Check if file is recently deleted
             inode_num = tsk_dirent->meta->addr;
-            // printf("%d (file)\n", (int)inode_num);
-            // fprintf(file, "%i\n", (int)inode_num); // print current inode number of regular file to FILE* file
             printf("entered file\n");
 
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
@@ -96,12 +97,9 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
         {
             // Directory
             inode_num = tsk_dirent->meta->addr;
-            // printf("%d (dir)\n", (int)inode_num); // print current inode number of dir to FILE* file
-            // fprintf(file, "%i\n", (int)inode_num);
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
             // Uncomment for recursive funciton to serach through directories recursively (gives ssegfault)
             // tsk_ll = tsk_walk_path(fs, (TSK_INUM_T)inode_num, tsk_ll);
-            printf("entered dir\n");
         }
     }
     // Cleanup
@@ -156,7 +154,6 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
     /* Since we start the walk on the root inode, then this will not show
      ** up in the above functions, so do it now
      */
-    printf("reached here 0");
     if (data.inode == fs->root_inum)
     {
         if (flags & TSK_FS_DIR_WALK_FLAG_ALLOC)
@@ -164,7 +161,6 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
             // tsk_printf("/\n");
             printf("\n");
             data.found = 1;
-            printf("reached here 1");
             if (!(lclflags & TSK_FS_FFIND_ALL))
                 return 0;
         }
@@ -181,10 +177,10 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
     return 0;
 }
 
+// works with my_tsk_fs_ffind
 TSK_WALK_RET_ENUM find_file_act(TSK_FS_FILE *fs_file, const char *a_path, void *ptr)
 {
     FFIND_DATA *data = (FFIND_DATA *)ptr;
-    printf("reached ehre 3\n");
     /* We found it! */
     if (fs_file->name->meta_addr == data->inode)
     {
@@ -192,10 +188,7 @@ TSK_WALK_RET_ENUM find_file_act(TSK_FS_FILE *fs_file, const char *a_path, void *
         if (fs_file->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
             printf("* ");
 
-        // if (tsk_print_sanitized(stdout, a_path) != 0 ||
-        //     tsk_print_sanitized(stdout, fs_file->name->name) != 0)
-        //     return TSK_WALK_ERROR;
-        printf("%s | %s\n", a_path, fs_file->name->name);
+        printf("%s%s\n", a_path, fs_file->name->name);
 
         if (!(data->flags & TSK_FS_FFIND_ALL))
         {

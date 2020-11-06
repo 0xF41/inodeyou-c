@@ -121,8 +121,9 @@ int main(int argc, char *argv[])
             // printf("%ld | %d", tmp->num, find_inode_ll(fs_ll_head, tmp->num));
             if (find_inode_ll(fs_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld\n", tmp->num);
+                printf("[WARNING] Missing inode %ld     ", tmp->num);
                 inode_to_pwd(volume, tmp->num);
+                printf("\n");
                 evil_hit++;
             }
         }
@@ -133,8 +134,9 @@ int main(int argc, char *argv[])
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld\n", tmp->num);
+                printf("[WARNING] Missing inode %ld     ", tmp->num);
                 inode_to_pwd(volume, tmp->num);
+                printf("\n");
                 evil_hit++;
             }
         }
@@ -146,8 +148,9 @@ int main(int argc, char *argv[])
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld\n", tmp->num);
+                printf("[WARNING] Missing inode %ld     ", tmp->num);
                 inode_to_pwd(volume, tmp->num);
+                printf("\n");
                 evil_hit++;
             }
         }
