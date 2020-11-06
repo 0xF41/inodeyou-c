@@ -64,6 +64,7 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
     // tsk_fs_dir_getsize() returns number inodes in current directory
     for (int i = 0, n = tsk_fs_dir_getsize(cur); i < n; i++)
     {
+        printf("entered loop");
         tsk_dirent = tsk_fs_dir_get(cur, i); // Get current inode
         if (tsk_dirent == NULL)
         {
