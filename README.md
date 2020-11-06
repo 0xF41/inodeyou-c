@@ -21,10 +21,11 @@ sudo apt update
 sudo apt install gcc
 sudo apt install tsklib-dev
 sudo git clone https://github.com/fy-fy-fy/inodeyou-c.git
+cd ./inodeyou-c/
+sudo make
 ```
 
 ### Usage
 ```
-sudo make
 sudo ./inodeyou filesystem mountpoint [starting-directory] (e.g. sudo ./inodeyou /dev/sda1 / /home/user1/)
 ```
