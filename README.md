@@ -11,11 +11,16 @@ Adapted from inodeyou:
 - http://www.unixist.com/security/detecting-hidden-files/index.html (inodeyou documentation)
 - https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py (inodeyou repo)
 
-### Features
-- Detects inodes hidden by working rootkits such as Diamorphine, Nurupo, LilyOfTheValley, Nuk3gh0st, and Reptile. (Rootkits that work on kernel 4.x)
+## Features
+- Detects regular inodes hidden by working rootkits such as Diamorphine, Nurupo, LilyOfTheValley, Nuk3gh0st, and Reptile. (Rootkits that work on kernel 4.x)
 - Tested on Ubuntu 16.04 LTS (64-bit)
 
-### Installation
+### Limitations
+- Does not have a recursive functionality in sub-directories (//TODO in future updates)
+- Does not detect special files such as file sockets, symbolic links, etc. 
+
+
+## Installation
 For debian-based distros: 
 ```
 sudo apt update
@@ -26,7 +31,7 @@ cd ./inodeyou-c/
 sudo make
 ```
 
-### Usage
+## Usage
 ```
 sudo ./inodeyou filesystem mountpoint [starting-directory] (e.g. sudo ./inodeyou /dev/sda1 / /home/user1/)
 ```
