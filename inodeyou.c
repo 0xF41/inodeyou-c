@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
     // - time_compare is the time taken to compare outputs of method 1 and method 2
     // - time_taken is the sum of all above times
     struct rusage before, after;
-    double time_taken, time_tsk, time_fs, time_compare;
-    time_taken = time_tsk = time_fs = time_compare = 0.0f;
+    double time_tsk, time_fs, time_compare;
+    time_tsk = time_fs = time_compare = 0.0f;
 
     // Free pagecache and kernel memory
     system("/bin/sync");
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
             if (find_inode_ll(fs_ll_head, tmp->num) == 0)
             {
                 printf("[WARNING] Missing inode %ld", tmp->num);
-                // inode_to_pwd(volume, tmp->num);
+                inode_to_pwd(volume, tmp->num);
                 evil_hit++;
             }
         }
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
                 printf("[WARNING] Missing inode %ld\n", tmp->num);
-                // inode_to_pwd(volume, tmp->num);
+                inode_to_pwd(volume, tmp->num);
                 evil_hit++;
             }
         }
