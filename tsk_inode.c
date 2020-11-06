@@ -152,6 +152,7 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
     /* Since we start the walk on the root inode, then this will not show
      ** up in the above functions, so do it now
      */
+    printf("reached here 0");
     if (data.inode == fs->root_inum)
     {
         if (flags & TSK_FS_DIR_WALK_FLAG_ALLOC)
@@ -159,7 +160,7 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
             // tsk_printf("/\n");
             printf("\n");
             data.found = 1;
-
+            printf("reached here 1");
             if (!(lclflags & TSK_FS_FFIND_ALL))
                 return 0;
         }
@@ -179,7 +180,7 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
 TSK_WALK_RET_ENUM find_file_act(TSK_FS_FILE *fs_file, const char *a_path, void *ptr)
 {
     FFIND_DATA *data = (FFIND_DATA *)ptr;
-
+    printf("reached ehre 3\n");
     /* We found it! */
     if (fs_file->name->meta_addr == data->inode)
     {
@@ -190,7 +191,7 @@ TSK_WALK_RET_ENUM find_file_act(TSK_FS_FILE *fs_file, const char *a_path, void *
         // if (tsk_print_sanitized(stdout, a_path) != 0 ||
         //     tsk_print_sanitized(stdout, fs_file->name->name) != 0)
         //     return TSK_WALK_ERROR;
-        printf("%s | %s", a_path, fs_file->name->name);
+        printf("%s | %s\n", a_path, fs_file->name->name);
 
         if (!(data->flags & TSK_FS_FFIND_ALL))
         {

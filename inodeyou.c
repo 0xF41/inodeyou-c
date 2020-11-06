@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
             // printf("%ld | %d", tmp->num, find_inode_ll(fs_ll_head, tmp->num));
             if (find_inode_ll(fs_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld", tmp->num);
+                printf("[WARNING] Missing inode %ld\n", tmp->num);
                 inode_to_pwd(volume, tmp->num);
                 evil_hit++;
             }
