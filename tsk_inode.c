@@ -88,6 +88,8 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             inode_num = tsk_dirent->meta->addr;
             // printf("%d (file)\n", (int)inode_num);
             // fprintf(file, "%i\n", (int)inode_num); // print current inode number of regular file to FILE* file
+            printf("entered file\n");
+
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
         }
         else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR && tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
@@ -99,6 +101,7 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
             // Uncomment for recursive funciton to serach through directories recursively (gives ssegfault)
             // tsk_ll = tsk_walk_path(fs, (TSK_INUM_T)inode_num, tsk_ll);
+            printf("entered dir\n");
         }
     }
     // Cleanup
