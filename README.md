@@ -18,6 +18,7 @@ Adapted from inodeyou:
 ### Limitations
 - Does not have a recursive functionality in sub-directories (//TODO in future updates)
 - Does not detect special files such as file sockets, symbolic links, etc. 
+- Only works on ext file system types, not compatible with xfs and other types. 
 
 
 ## Installation
