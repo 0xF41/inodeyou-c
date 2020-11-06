@@ -186,7 +186,7 @@ TSK_WALK_RET_ENUM find_file_act(TSK_FS_FILE *fs_file, const char *a_path, void *
         if (fs_file->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
             printf("* ");
 
-        printf("%s%s\n", a_path, fs_file->name->name);
+        printf("%s%s", a_path, fs_file->name->name);
 
         if (!(data->flags & TSK_FS_FFIND_ALL))
         {

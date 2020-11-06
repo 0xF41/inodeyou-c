@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     // Print out arguments used in current scan
     printf("======== INODEYOU-C =========\n");
-    printf("Volume: %s      Mount Point: %s     Starting Directiory: %s\n", volume, mount_point, root);
+    printf("Volume: %s\nMount Point: %s\nStarting Directiory: %s\n", volume, mount_point, root);
 
     // Output of method 1 and 2 stored in separate inodenode linked lists
     inodenode *tsk_ll_head = NULL;
@@ -113,8 +113,8 @@ int main(int argc, char *argv[])
     tsk_ll_length = count_inode_ll(tsk_ll_head);
     fs_ll_length = count_inode_ll(fs_ll_head);
 
-    printf("\nNumber of inodes found in get_tsk_inodes (Method 1): %d\n", tsk_ll_length);
-    printf("Number of inodes found in get_fs_inodes (Method 2): %d\n\n", fs_ll_length);
+    printf("\nNumber of inodes found in method 1 (get_tsk_inodes): %d\n", tsk_ll_length);
+    printf("Number of inodes found in method 2 (get_fs_inodes): %d\n\n", fs_ll_length);
 
     // Check for disreptencies between tsk linked list and fs linked list
     if (tsk_ll_length > fs_ll_length)
