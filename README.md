@@ -12,7 +12,8 @@ Adapted from inodeyou:
 - https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py (inodeyou repo)
 
 ### Features
-- Detects inodes hidden by working rootkits such as Diamorphine, Nurupo, LilyOfTheValley, Nuk3gh0st, and Reptile. 
+- Detects inodes hidden by working rootkits such as Diamorphine, Nurupo, LilyOfTheValley, Nuk3gh0st, and Reptile. (Rootkits that work on kernel 4.x)
+- Tested on Ubuntu 16.04 LTS (64-bit)
 
 ### Installation
 For debian-based distros: 
