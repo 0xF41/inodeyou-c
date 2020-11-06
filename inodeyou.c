@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
     system("/bin/echo 3 > /proc/sys/vm/drop_caches");
 
     // Print out arguments used in current scan
+    printf("======== INODEYOU-C =========\n");
     printf("Volume: %s      Mount Point: %s     Starting Directiory: %s\n", volume, mount_point, root);
 
     // Output of method 1 and 2 stored in separate inodenode linked lists
@@ -111,7 +112,9 @@ int main(int argc, char *argv[])
     // Get length of linked lists
     tsk_ll_length = count_inode_ll(tsk_ll_head);
     fs_ll_length = count_inode_ll(fs_ll_head);
-    printf("%d | %d\n", tsk_ll_length, fs_ll_length);
+
+    printf("\nNumber of inodes found in get_tsk_inodes (Method 1): %d\n", tsk_ll_length);
+    printf("Number of inodes found in get_fs_inodes (Method 2): %d\n\n", fs_ll_length);
 
     // Check for disreptencies between tsk linked list and fs linked list
     if (tsk_ll_length > fs_ll_length)
@@ -121,9 +124,9 @@ int main(int argc, char *argv[])
             // printf("%ld | %d", tmp->num, find_inode_ll(fs_ll_head, tmp->num));
             if (find_inode_ll(fs_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld     ", tmp->num);
+                printf("[WARNING] Missing inode %ld (", tmp->num);
                 inode_to_pwd(volume, tmp->num);
-                printf("\n");
+                printf(")\n");
                 evil_hit++;
             }
         }
@@ -134,9 +137,9 @@ int main(int argc, char *argv[])
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld     ", tmp->num);
+                printf("[WARNING] Missing inode %ld (", tmp->num);
                 inode_to_pwd(volume, tmp->num);
-                printf("\n");
+                printf(")\n");
                 evil_hit++;
             }
         }
@@ -148,9 +151,9 @@ int main(int argc, char *argv[])
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
             {
-                printf("[WARNING] Missing inode %ld     ", tmp->num);
+                printf("[WARNING] Missing inode %ld (", tmp->num);
                 inode_to_pwd(volume, tmp->num);
-                printf("\n");
+                printf(")\n");
                 evil_hit++;
             }
         }
