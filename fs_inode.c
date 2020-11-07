@@ -12,20 +12,6 @@ inodenode *get_fs_inodes(const char path[])
         exit(1);
     }
 
-    DIR *folder = opendir(path);
-    if (folder == NULL)
-    {
-        printf("Error: Unable to read directory %s", path);
-        exit(1);
-    }
-    struct dirent *entry;
-    // struct stat filestat;
-    // FILE *datafilefs = fopen(FS_INODES_FILE, "w");
-    // if (datafilefs == NULL)
-    // {
-    //     printf("Error: Unable to open %s", "fs_inodes.txt");
-    //     exit(1);
-    // }
     inodenode *fs_ll = create_inode_ll(-1);
     if (fs_ll == NULL)
     {
@@ -33,6 +19,21 @@ inodenode *get_fs_inodes(const char path[])
         exit(1);
     }
 
+    fs_ll = fs_walk_path(path, fs_ll);
+
+    return fs_ll;
+}
+
+inodenode *fs_walk_path(const char path[], inodenode *fs_ll)
+{
+    DIR *folder = opendir(path);
+    if (folder == NULL)
+    {
+        printf("Error: Unable to read directory %s", path);
+        exit(1);
+    }
+
+    struct dirent *entry = NULL;
     int inode_number = -1;
     while ((entry = readdir(folder)) != NULL)
     {
@@ -46,20 +47,24 @@ inodenode *get_fs_inodes(const char path[])
             }
             inode_number = (int)entry->d_ino;
             // printf("%s (Dir)\n", entry->d_name);
+            fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
+            // Uncomment for recursive functionality
+            // char buffer[BUF_LEN_LARGE];
+            // sprintf(buffer, "%s/%s", path, entry->d_name);
+            // fs_ll = fs_walk_path(buffer, fs_ll);
         }
         // File
         else if (entry->d_type == 8)
         {
             // Regular file
             inode_number = (int)entry->d_ino;
+            fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
         }
         // fprintf(datafilefs, "%i\n", inode_number);
-        fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
     }
 
     // Cleanup
     closedir(folder);
-    // fclose(datafilefs);
 
     return fs_ll;
 }

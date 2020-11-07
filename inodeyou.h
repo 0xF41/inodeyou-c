@@ -20,6 +20,7 @@
 #include <tsk/img/tsk_img.h>
 
 #define BUF_LEN 100
+#define BUF_LEN_LARGE 500
 #define USAGE "Usage: ./inodeyou-c filesystem mountpoint [directory] (./inodeyou-c /dev/sda1 / /)\n"
 #define CHECK_ROOT_ERR_MSG "You must be root to perform this function!\n"
 #define SAFE_RESULT "\n[OK] There are no files or directiories that are being currently hidden by a rootkit.\n"
@@ -51,8 +52,9 @@ inodenode *get_tsk_inodes(const char vol[], char dir[]);
 inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll);
 void inode_to_pwd(const char vol[], TSK_INUM_T dir_ino_num);
 inodenode *get_fs_inodes(const char path[]);
+inodenode *fs_walk_path(const char path[], inodenode *fs_ll);
 
-// For linked list data structure
+// For linked list data structure (inodelinkedlist.c)
 inodenode *create_inode_ll(long value);
 inodenode *insert_inode_ll(inodenode *head, long value);
 int find_inode_ll(inodenode *head, long val);
@@ -63,7 +65,7 @@ int count_inode_ll(inodenode *head);
 // For calcualting time taken
 double calculate_time(const struct rusage *b, const struct rusage *a);
 
-// For my version of ffind
+// For my version of ffind (tsk_inode.c)
 TSK_WALK_RET_ENUM find_file_act(TSK_FS_FILE *fs_file, const char *a_path, void *ptr);
 uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
                         TSK_INUM_T a_inode,

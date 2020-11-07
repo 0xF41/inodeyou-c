@@ -117,11 +117,10 @@ int main(int argc, char *argv[])
     printf("Number of inodes found in method 2 (get_fs_inodes): %d\n\n", fs_ll_length);
 
     // Check for disreptencies between tsk linked list and fs linked list
-    if (tsk_ll_length > fs_ll_length)
+    if (tsk_ll_length >= fs_ll_length)
     {
         for (inodenode *tmp = tsk_ll_head; tmp != NULL; tmp = tmp->next)
         {
-            // printf("%ld | %d", tmp->num, find_inode_ll(fs_ll_head, tmp->num));
             if (find_inode_ll(fs_ll_head, tmp->num) == 0)
             {
                 printf("[WARNING] Missing inode %ld (", tmp->num);
@@ -131,22 +130,8 @@ int main(int argc, char *argv[])
             }
         }
     }
-    else if (fs_ll_length > tsk_ll_length)
+    else if (fs_ll_length >= tsk_ll_length)
     {
-        for (inodenode *tmp = fs_ll_head; tmp != NULL; tmp = tmp->next)
-        {
-            if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
-            {
-                printf("[WARNING] Missing inode %ld (", tmp->num);
-                inode_to_pwd(volume, tmp->num);
-                printf(")\n");
-                evil_hit++;
-            }
-        }
-    }
-    else
-    {
-        // Sanity check: should not have hits here if number of inodes from both results are equal
         for (inodenode *tmp = fs_ll_head; tmp != NULL; tmp = tmp->next)
         {
             if (find_inode_ll(tsk_ll_head, tmp->num) == 0)

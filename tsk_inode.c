@@ -16,15 +16,7 @@ inodenode *get_tsk_inodes(const char vol[], char dir[])
         printf("Error: Only type ext2/3/4 supported\n");
         exit(1);
     }
-    // tsk_walk_path
-    TSK_FS_DIR *cur = tsk_fs_dir_open((TSK_FS_INFO *)fs, (const char *)dir);
-    if (cur == NULL)
-    {
-        printf("Error: Falied to open directory \'%s\'\n", dir);
-        exit(1);
-    }
 
-    // FILE *datafile = fopen(TSK_INODES_FILE, "w");
     inodenode *tsk_ll = create_inode_ll(-1);
     if (tsk_ll == NULL)
     {
@@ -64,10 +56,6 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
     for (int i = 0, n = tsk_fs_dir_getsize(cur); i < n; i++)
     {
         tsk_dirent = tsk_fs_dir_get(cur, i); // Get current inode
-        if (tsk_dirent == NULL)
-        {
-            printf("Error: Failed to get tsk_dirent in tsk_walk_path\n");
-        }
         inode_num = -1;
         if (tsk_dirent == NULL)
         {
@@ -85,20 +73,23 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             // . or ..
             continue;
         }
-        else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_REG && tsk_dirent->meta->type == TSK_FS_META_TYPE_REG)
+        else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_REG || tsk_dirent->meta->type == TSK_FS_META_TYPE_REG)
         {
             // Regular file
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
         }
-        else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR && tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
+        else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR || tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
         {
             // Directory
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
             // Uncomment for recursive funciton to serach through directories recursively (gives ssegfault)
-            // tsk_ll = tsk_walk_path(fs, (TSK_INUM_T)inode_num, tsk_ll);
+            TSK_FS_INFO *fs_agn = fs;
+            tsk_ll = tsk_walk_path(fs_agn, inode_num, tsk_ll);
         }
+        // Debug output
+        // printf("here %s | %d | %d | %d | %d | %p\n", tsk_dirent->name->name, tsk_dirent->name->type, TSK_FS_NAME_TYPE_REG, tsk_dirent->meta->type, TSK_FS_META_TYPE_REG, NULL);
     }
     // Cleanup
     tsk_fs_dir_close(cur);
