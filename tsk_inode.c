@@ -27,8 +27,8 @@ inodenode *get_tsk_inodes(const char vol[], char dir[])
     // Finds inode number (dir_inode_num) of dir (/home/user1/)
     TSK_INUM_T dir_inode_num;
     tsk_fs_ifind_path(fs, dir, &dir_inode_num);
-    // tsk_walk_path(fs, dir_inode_num, datafile);
-    tsk_ll = tsk_walk_path(fs, dir_inode_num, tsk_ll);
+    tsk_ll = tsk_walk_path(fs, dir, tsk_ll);
+    // tsk_ll = tsk_walk_path(fs, dir_inode_num, tsk_ll);
 
     // fclose(datafile);
 
@@ -40,12 +40,14 @@ inodenode *get_tsk_inodes(const char vol[], char dir[])
 }
 
 // Returns linked list of inodes found by tsk functions
-inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
+// inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
+inodenode *tsk_walk_path(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
 {
-    TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
+    // TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
+    TSK_FS_DIR *cur = tsk_fs_dir_open(fs, path);
     if (cur == NULL)
     {
-        printf("Error: Falied to open inode number %lu", dir_ino_num);
+        // printf("Error: Falied to open inode number %lu", dir_ino_num);
         exit(1);
     }
 
@@ -55,11 +57,11 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
     // tsk_fs_dir_getsize() returns number inodes in current directory
     for (int i = 0, n = tsk_fs_dir_getsize(cur); i < n; i++)
     {
-        tsk_dirent = tsk_fs_dir_get(cur, i); // Get current inode
         inode_num = -1;
+        tsk_dirent = tsk_fs_dir_get(cur, i); // Get current inode
         if (tsk_dirent == NULL)
         {
-            printf("Error: Failed to get directory entry (index %i)\n", i);
+            printf("Error: Failed to get directory entry (index %i, %s)\n", i, tsk_dirent->name->name);
             exit(1);
         }
 
@@ -85,8 +87,10 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
             // Uncomment for recursive funciton to serach through directories recursively (gives ssegfault)
-            TSK_FS_INFO *fs_agn = fs;
-            tsk_ll = tsk_walk_path(fs_agn, inode_num, tsk_ll);
+            char new_path[BUF_LEN_LARGE];
+            sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
+            // tsk_ll = tsk_walk_path(fs, inode_num, tsk_ll);
+            tsk_ll = tsk_walk_path(fs, new_path, tsk_ll);
         }
         // Debug output
         // printf("here %s | %d | %d | %d | %d | %p\n", tsk_dirent->name->name, tsk_dirent->name->type, TSK_FS_NAME_TYPE_REG, tsk_dirent->meta->type, TSK_FS_META_TYPE_REG, NULL);

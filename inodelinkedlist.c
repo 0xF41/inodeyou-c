@@ -1,3 +1,4 @@
+#include "inodelinkedlist.h"
 #include "inodeyou.h"
 
 // Creates the first node of the inodenode linked list

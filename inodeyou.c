@@ -159,10 +159,10 @@ int main(int argc, char *argv[])
     }
 
     // Report time taken & benchmark
-    printf("\nTIME IN method 1 (get_tsk_inodes):       %f s", time_tsk);
-    printf("\nTIME IN method 2 (get_fs_inodes):        %f s", time_fs);
-    printf("\nTIME IN finding anomalies:               %f s", time_compare);
-    printf("\nTIME IN TOTAL:                           %f s", time_tsk + time_fs + time_compare);
+    printf("\nTIME IN method 1 (get_tsk_inodes):       %.2f s", time_tsk);
+    printf("\nTIME IN method 2 (get_fs_inodes):        %.2f s", time_fs);
+    printf("\nTIME IN finding anomalies:               %.2f s", time_compare);
+    printf("\nTIME IN TOTAL:                           %.2f s", time_tsk + time_fs + time_compare);
     printf("\n\n");
 
     // Cleanup code
