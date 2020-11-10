@@ -1,3 +1,4 @@
+#include "fs_inode.h"
 #include "inodeyou.h"
 
 inodenode *get_fs_inodes(const char path[])
