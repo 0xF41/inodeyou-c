@@ -3,8 +3,10 @@
 // Get list of inodes from tsk functions
 inodenode *get_tsk_inodes(const char vol[], char dir[])
 {
-    const TSK_TCHAR *const images[1] = {vol};
-    TSK_IMG_INFO *img = tsk_img_open(1, images, TSK_IMG_TYPE_DETECT, 0);
+    // const TSK_TCHAR *const images[1] = {vol};
+    // TSK_IMG_INFO *img = tsk_img_open(1, images, TSK_IMG_TYPE_DETECT, 0);
+    // Causes memory leak for some reason
+    TSK_IMG_INFO *img = tsk_img_open_utf8_sing(vol, TSK_IMG_TYPE_DETECT, 0);
     if (img == NULL)
     {
         printf("Error: %s is an invalid volume\n", vol);
@@ -27,24 +29,38 @@ inodenode *get_tsk_inodes(const char vol[], char dir[])
     // Finds inode number (dir_inode_num) of dir (/home/user1/)
     TSK_INUM_T dir_inode_num;
     tsk_fs_ifind_path(fs, dir, &dir_inode_num);
-    tsk_ll = tsk_walk_path(fs, dir, tsk_ll);
-    // tsk_ll = tsk_walk_path(fs, dir_inode_num, tsk_ll);
+    // tsk_ll = tsk_walk_path(fs, dir, tsk_ll);
+    tsk_ll = tsk_walk_path(fs, dir_inode_num, tsk_ll);
 
     // fclose(datafile);
 
     // Cleanup
-    tsk_img_close(img);
     tsk_fs_close(fs);
+
+    tsk_img_close(img);
 
     return tsk_ll;
 }
 
+// inodenode *tsk_walk_path_v2(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
+// {
+//     TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
+//     if (cur == NULL)
+//     {
+//         exit(1);
+//     }
+
+//     TSK_FS_FILE *dirent = NULL;
+
+//     return NULL;
+// }
+
 // Returns linked list of inodes found by tsk functions
-// inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
-inodenode *tsk_walk_path(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
+//inodenode *tsk_walk_path(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
+inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
 {
-    // TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
-    TSK_FS_DIR *cur = tsk_fs_dir_open(fs, path);
+    TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
+    // TSK_FS_DIR *cur = tsk_fs_dir_open(fs, path);
     if (cur == NULL)
     {
         // printf("Error: Falied to open inode number %lu", dir_ino_num);
@@ -55,48 +71,65 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
     TSK_INUM_T inode_num = -1;
 
     // tsk_fs_dir_getsize() returns number inodes in current directory
-    for (int i = 0, n = tsk_fs_dir_getsize(cur); i < n; i++)
+    for (size_t i = 0, n = tsk_fs_dir_getsize(cur); i < n; i++)
     {
         inode_num = -1;
         tsk_dirent = tsk_fs_dir_get(cur, i); // Get current inode
         if (tsk_dirent == NULL)
         {
-            printf("Error: Failed to get directory entry (index %i, %s)\n", i, tsk_dirent->name->name);
+            printf("Error: Failed to get directory entry (index %li, %s)\n", i, tsk_dirent->name->name);
             exit(1);
         }
 
-        if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
-        {
-            // Check if file is recently deleted, if it is, skip.
-            continue;
-        }
+        // Produces memory leak
+        // if (tsk_dirent->meta->addr == tsk_dirent->name->meta_addr)
+        // {
+        //     if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
+        //     {
+        //         // Check if file is recently deleted, if it is, skip.
+        //         // printf("%ld", inode_num);
+        //         tsk_fs_file_close(tsk_dirent);
+        //         continue;
+        //     }
+        // }
+
         if (!strcmp(tsk_dirent->name->name, ".") || !strcmp(tsk_dirent->name->name, ".."))
         {
             // . or ..
+            tsk_fs_file_close(tsk_dirent);
             continue;
         }
-        else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_REG || tsk_dirent->meta->type == TSK_FS_META_TYPE_REG)
+        // else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_REG || tsk_dirent->meta->type == TSK_FS_META_TYPE_REG)
+        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_REG)
         {
             // Regular file
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
         }
-        else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR || tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
+        // else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR || tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
+        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
         {
             // Directory
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
             // Uncomment for recursive funciton to serach through directories recursively (gives ssegfault)
-            char new_path[BUF_LEN_LARGE];
-            sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
+            // char new_path[BUF_LEN_LARGE];
+            // sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
+            // tsk_ll = tsk_walk_path(fs, new_path, tsk_ll);
             // tsk_ll = tsk_walk_path(fs, inode_num, tsk_ll);
-            tsk_ll = tsk_walk_path(fs, new_path, tsk_ll);
+        }
+
+        tsk_fs_file_close(tsk_dirent);
+        if (i == (n - 1))
+        {
+            tsk_fs_dir_close(cur);
         }
         // Debug output
         // printf("here %s | %d | %d | %d | %d | %p\n", tsk_dirent->name->name, tsk_dirent->name->type, TSK_FS_NAME_TYPE_REG, tsk_dirent->meta->type, TSK_FS_META_TYPE_REG, NULL);
     }
+
     // Cleanup
-    tsk_fs_dir_close(cur);
+    // tsk_fs_dir_close(cur);
 
     return tsk_ll;
 }

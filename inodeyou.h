@@ -18,7 +18,7 @@
 
 #define BUF_LEN 100
 #define BUF_LEN_LARGE 500
-#define USAGE "Usage: ./inodeyou-c filesystem mountpoint [directory] (./inodeyou-c /dev/sda1 / /)\n"
+#define USAGE "Usage: ./inodeyou-c volume mountpoint [directory] (./inodeyou-c /dev/sda1 / /)\n"
 #define CHECK_ROOT_ERR_MSG "You must be root to perform this function!\n"
 #define SAFE_RESULT "\n[OK] There are no files or directiories that are being currently hidden by a rootkit.\n"
 #define WARNING_RESULT "\n[WARNING] There are %d files and directories that are currenty hidden by a rootkit.\n"

@@ -34,5 +34,5 @@ sudo make
 
 ## Usage
 ```
-sudo ./inodeyou filesystem mountpoint [starting-directory] (e.g. sudo ./inodeyou /dev/sda1 / /home/user1/)
+Usage: sudo ./inodeyou-c volume mountpoint [directory] (./inodeyou-c /dev/sda1 / /)
 ```
