@@ -16,7 +16,8 @@ Adapted from inodeyou:
 - Tested on Ubuntu 16.04 LTS (64-bit)
 
 ### Limitations
-- Does not have a recursive functionality in sub-directories (//TODO in future updates)
+- Does not have a recursive functionality in sub-directories (Memory leaks in tsk functions prevent this feature) 
+- False positive of recently deleted inodes show due to tsk memory leaks
 - Does not detect special files such as file sockets, symbolic links, etc. 
 - Only works on ext file system types, not compatible with xfs and other types. 
 

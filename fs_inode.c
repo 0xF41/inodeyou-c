@@ -49,16 +49,21 @@ inodenode *fs_walk_path(const char path[], inodenode *fs_ll)
             inode_number = (int)entry->d_ino;
             // printf("%s (Dir)\n", entry->d_name);
             fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
-            // Uncomment for recursive functionality
-            // char buffer[BUF_LEN_LARGE];
-            // sprintf(buffer, "%s/%s", path, entry->d_name);
-            // fs_ll = fs_walk_path(buffer, fs_ll);
+
+            // Recursive functionality
+            if (RECURSIVE_TEST)
+            {
+                char buffer[BUF_LEN_LARGE];
+                sprintf(buffer, "%s/%s", path, entry->d_name);
+                fs_ll = fs_walk_path(buffer, fs_ll);
+            }
         }
         // File
         else if (entry->d_type == 8)
         {
             // Regular file
             inode_number = (int)entry->d_ino;
+            // printf("%s (File)\n", entry->d_name);
             fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
         }
     }

@@ -1,0 +1,389 @@
+======== INODEYOU-C =========
+Volume: /dev/sdb
+Mount Point: /
+Starting Directiory: /
+RECURSIVE_TEST: 1type: 2 | name: lost+found | inode_num: 11 | i: 2| n: 28 | dir_ino_num: 2
+(into)
+(back)
+type: 2 | name: boot | inode_num: 8193 | i: 4| n: 28 | dir_ino_num: 2
+(into)
+(back)
+type: 2 | name: dev | inode_num: 8194 | i: 5| n: 28 | dir_ino_num: 2
+(into)
+type: 2 | name: mapper | inode_num: 40055 | i: 5| n: 17 | dir_ino_num: 8194
+(into)
+(back)
+type: 2 | name: pts | inode_num: 40058 | i: 8| n: 17 | dir_ino_num: 8194
+(into)
+(back)
+type: 2 | name: shm | inode_num: 40060 | i: 10| n: 17 | dir_ino_num: 8194
+(into)
+(back)
+(back)
+type: 2 | name: etc | inode_num: 16385 | i: 6| n: 28 | dir_ino_num: 2
+(into)
+type: 2 | name: alternatives | inode_num: 38518 | i: 4| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: apparmor | inode_num: 38519 | i: 5| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: init | inode_num: 39934 | i: 2| n: 4 | dir_ino_num: 38519
+(into)
+type: 2 | name: network-interface-security | inode_num: 39936 | i: 2| n: 3 | dir_ino_num: 39934
+(into)
+(back)
+(back)
+(back)
+type: 2 | name: apparmor.d | inode_num: 38520 | i: 6| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: abstractions | inode_num: 39781 | i: 2| n: 14 | dir_ino_num: 38520
+(into)
+type: 2 | name: apparmor_api | inode_num: 39822 | i: 3| n: 100 | dir_ino_num: 39781
+(into)
+(back)
+type: 2 | name: ubuntu-browsers.d | inode_num: 39892 | i: 73| n: 100 | dir_ino_num: 39781
+(into)
+(back)
+(back)
+type: 2 | name: disable | inode_num: 39782 | i: 3| n: 14 | dir_ino_num: 38520
+(into)
+(back)
+type: 2 | name: force-complain | inode_num: 39783 | i: 4| n: 14 | dir_ino_num: 38520
+(into)
+(back)
+type: 2 | name: local | inode_num: 39784 | i: 5| n: 14 | dir_ino_num: 38520
+(into)
+(back)
+type: 2 | name: tunables | inode_num: 39788 | i: 9| n: 14 | dir_ino_num: 38520
+(into)
+type: 2 | name: home.d | inode_num: 39798 | i: 7| n: 17 | dir_ino_num: 39788
+(into)
+(back)
+type: 2 | name: multiarch.d | inode_num: 39801 | i: 10| n: 17 | dir_ino_num: 39788
+(into)
+(back)
+type: 2 | name: xdg-user-dirs.d | inode_num: 39807 | i: 16| n: 17 | dir_ino_num: 39788
+(into)
+(back)
+(back)
+(back)
+type: 2 | name: apport | inode_num: 38521 | i: 7| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: blacklist.d | inode_num: 39777 | i: 2| n: 4 | dir_ino_num: 38521
+(into)
+(back)
+(back)
+type: 2 | name: apt | inode_num: 38522 | i: 8| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: apt.conf.d | inode_num: 39755 | i: 2| n: 9 | dir_ino_num: 38522
+(into)
+(back)
+type: 2 | name: auth.conf.d | inode_num: 39756 | i: 3| n: 9 | dir_ino_num: 38522
+(into)
+(back)
+type: 2 | name: preferences.d | inode_num: 39757 | i: 4| n: 9 | dir_ino_num: 38522
+(into)
+(back)
+type: 2 | name: sources.list.d | inode_num: 39759 | i: 6| n: 9 | dir_ino_num: 38522
+(into)
+(back)
+type: 2 | name: trusted.gpg.d | inode_num: 39760 | i: 7| n: 9 | dir_ino_num: 38522
+(into)
+(back)
+(back)
+type: 2 | name: bash_completion.d | inode_num: 38526 | i: 12| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: binfmt.d | inode_num: 38528 | i: 14| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: byobu | inode_num: 38529 | i: 15| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: ca-certificates | inode_num: 38530 | i: 16| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: update.d | inode_num: 39750 | i: 2| n: 3 | dir_ino_num: 38530
+(into)
+(back)
+(back)
+type: 2 | name: calendar | inode_num: 38532 | i: 18| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: cloud | inode_num: 38533 | i: 19| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: cloud.cfg.d | inode_num: 39723 | i: 4| n: 6 | dir_ino_num: 38533
+(into)
+(back)
+type: 2 | name: templates | inode_num: 39724 | i: 5| n: 6 | dir_ino_num: 38533
+(into)
+(back)
+(back)
+type: 2 | name: console-setup | inode_num: 38534 | i: 20| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: cron.d | inode_num: 38535 | i: 21| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: cron.daily | inode_num: 38536 | i: 22| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: cron.hourly | inode_num: 38537 | i: 23| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: cron.monthly | inode_num: 38538 | i: 24| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: cron.weekly | inode_num: 38539 | i: 25| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: cryptsetup-initramfs | inode_num: 38541 | i: 27| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: dbus-1 | inode_num: 38543 | i: 29| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: session.d | inode_num: 39658 | i: 2| n: 4 | dir_ino_num: 38543
+(into)
+(back)
+type: 2 | name: system.d | inode_num: 39659 | i: 3| n: 4 | dir_ino_num: 38543
+(into)
+(back)
+(back)
+type: 2 | name: dconf | inode_num: 38544 | i: 30| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: db | inode_num: 39657 | i: 2| n: 3 | dir_ino_num: 38544
+(into)
+(back)
+(back)
+type: 2 | name: default | inode_num: 38547 | i: 33| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: grub.d | inode_num: 39642 | i: 8| n: 22 | dir_ino_num: 38547
+(into)
+(back)
+(back)
+type: 2 | name: depmod.d | inode_num: 38549 | i: 35| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: dhcp | inode_num: 38550 | i: 36| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: dhclient-enter-hooks.d | inode_num: 39626 | i: 3| n: 6 | dir_ino_num: 38550
+(into)
+(back)
+type: 2 | name: dhclient-exit-hooks.d | inode_num: 39627 | i: 4| n: 6 | dir_ino_num: 38550
+(into)
+(back)
+(back)
+type: 2 | name: dpkg | inode_num: 38551 | i: 37| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: dpkg.cfg.d | inode_num: 39620 | i: 3| n: 8 | dir_ino_num: 38551
+(into)
+(back)
+type: 2 | name: origins | inode_num: 39621 | i: 4| n: 8 | dir_ino_num: 38551
+(into)
+(back)
+(back)
+type: 2 | name: fonts | inode_num: 38556 | i: 42| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: conf.avail | inode_num: 39516 | i: 2| n: 5 | dir_ino_num: 38556
+(into)
+(back)
+type: 2 | name: conf.d | inode_num: 39517 | i: 3| n: 5 | dir_ino_num: 38556
+(into)
+(back)
+(back)
+type: 2 | name: fwupd | inode_num: 38559 | i: 45| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: remotes.d | inode_num: 39507 | i: 4| n: 8 | dir_ino_num: 38559
+(into)
+(back)
+(back)
+type: 2 | name: groff | inode_num: 38561 | i: 47| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: gss | inode_num: 38566 | i: 52| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: mech.d | inode_num: 39502 | i: 2| n: 3 | dir_ino_num: 38566
+(into)
+(back)
+(back)
+type: 2 | name: init.d | inode_num: 38573 | i: 59| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: initramfs-tools | inode_num: 38574 | i: 60| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: conf.d | inode_num: 39456 | i: 2| n: 8 | dir_ino_num: 38574
+(into)
+(back)
+type: 2 | name: hooks | inode_num: 39457 | i: 3| n: 8 | dir_ino_num: 38574
+(into)
+(back)
+type: 2 | name: scripts | inode_num: 39460 | i: 6| n: 8 | dir_ino_num: 38574
+(into)
+type: 2 | name: init-bottom | inode_num: 39462 | i: 2| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: init-premount | inode_num: 39463 | i: 3| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: init-top | inode_num: 39464 | i: 4| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: local-bottom | inode_num: 39465 | i: 5| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: local-premount | inode_num: 39466 | i: 6| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: local-top | inode_num: 39467 | i: 7| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: nfs-bottom | inode_num: 39468 | i: 8| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: nfs-premount | inode_num: 39469 | i: 9| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: nfs-top | inode_num: 39470 | i: 10| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+type: 2 | name: panic | inode_num: 39471 | i: 11| n: 12 | dir_ino_num: 39460
+(into)
+(back)
+(back)
+(back)
+type: 2 | name: iproute2 | inode_num: 38576 | i: 62| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: rt_protos.d | inode_num: 39449 | i: 8| n: 13 | dir_ino_num: 38576
+(into)
+(back)
+type: 2 | name: rt_tables.d | inode_num: 39453 | i: 12| n: 13 | dir_ino_num: 38576
+(into)
+(back)
+(back)
+type: 2 | name: iscsi | inode_num: 38577 | i: 63| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: kernel | inode_num: 38580 | i: 66| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: install.d | inode_num: 39433 | i: 2| n: 5 | dir_ino_num: 38580
+(into)
+(back)
+type: 2 | name: postinst.d | inode_num: 39434 | i: 3| n: 5 | dir_ino_num: 38580
+(into)
+(back)
+type: 2 | name: postrm.d | inode_num: 39435 | i: 4| n: 5 | dir_ino_num: 38580
+(into)
+(back)
+(back)
+type: 2 | name: landscape | inode_num: 38582 | i: 68| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: ld.so.conf.d | inode_num: 38585 | i: 71| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: ldap | inode_num: 38586 | i: 72| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: logcheck | inode_num: 38592 | i: 78| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: ignore.d.server | inode_num: 39423 | i: 2| n: 4 | dir_ino_num: 38592
+(into)
+(back)
+type: 2 | name: violations.d | inode_num: 39424 | i: 3| n: 4 | dir_ino_num: 38592
+(into)
+(back)
+(back)
+type: 2 | name: logrotate.d | inode_num: 38595 | i: 81| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: lvm | inode_num: 38598 | i: 84| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: profile | inode_num: 39403 | i: 4| n: 5 | dir_ino_num: 38598
+(into)
+(back)
+(back)
+type: 2 | name: mdadm | inode_num: 38605 | i: 91| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: modprobe.d | inode_num: 38608 | i: 94| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: modules-load.d | inode_num: 38610 | i: 96| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: netplan | inode_num: 38614 | i: 100| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: network | inode_num: 38615 | i: 101| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: if-pre-up.d | inode_num: 39388 | i: 2| n: 4 | dir_ino_num: 38615
+(into)
+(back)
+type: 2 | name: if-up.d | inode_num: 39389 | i: 3| n: 4 | dir_ino_num: 38615
+(into)
+(back)
+(back)
+type: 2 | name: networkd-dispatcher | inode_num: 38616 | i: 102| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: carrier.d | inode_num: 39382 | i: 2| n: 8 | dir_ino_num: 38616
+(into)
+(back)
+type: 2 | name: degraded.d | inode_num: 39383 | i: 3| n: 8 | dir_ino_num: 38616
+(into)
+(back)
+type: 2 | name: dormant.d | inode_num: 39384 | i: 4| n: 8 | dir_ino_num: 38616
+(into)
+(back)
+type: 2 | name: no-carrier.d | inode_num: 39385 | i: 5| n: 8 | dir_ino_num: 38616
+(into)
+(back)
+type: 2 | name: off.d | inode_num: 39386 | i: 6| n: 8 | dir_ino_num: 38616
+(into)
+(back)
+type: 2 | name: routable.d | inode_num: 39387 | i: 7| n: 8 | dir_ino_num: 38616
+(into)
+(back)
+(back)
+type: 2 | name: NetworkManager | inode_num: 38617 | i: 103| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: dispatcher.d | inode_num: 39380 | i: 2| n: 3 | dir_ino_num: 38617
+(into)
+(back)
+(back)
+type: 2 | name: newt | inode_num: 38619 | i: 105| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: opt | inode_num: 38621 | i: 107| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: PackageKit | inode_num: 38625 | i: 111| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: pam.d | inode_num: 38627 | i: 113| n: 186 | dir_ino_num: 16385
+(into)
+(back)
+type: 2 | name: perl | inode_num: 38630 | i: 116| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: Net | inode_num: 39350 | i: 2| n: 3 | dir_ino_num: 38630
+(into)
+(back)
+(back)
+type: 2 | name: pki | inode_num: 38631 | i: 117| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: fwupd | inode_num: 39341 | i: 2| n: 4 | dir_ino_num: 38631
+(into)
+(back)
+type: 2 | name: fwupd-metadata | inode_num: 39342 | i: 3| n: 4 | dir_ino_num: 38631
+(into)
+(back)
+(back)
+type: 2 | name: pm | inode_num: 38632 | i: 118| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: sleep.d | inode_num: 39339 | i: 2| n: 3 | dir_ino_num: 38632
+(into)
+(back)
+(back)
+type: 2 | name: polkit-1 | inode_num: 38633 | i: 119| n: 186 | dir_ino_num: 16385
+(into)
+type: 2 | name: localauthority | inode_num: 39330 | i: 2| n: 4 | dir_ino_num: 38633
+(into)
+type: 2 | name: 10-vendor.d | inode_nu

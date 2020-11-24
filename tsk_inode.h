@@ -10,6 +10,8 @@
 
 #include "inodelinkedlist.h"
 
+#define TEST_BY_INODE 1
+
 // For my ffind functionality in tsk_inode.c
 typedef struct
 {
@@ -21,6 +23,7 @@ typedef struct
 // For tsk & fs mechanisms (tsk_inode.c & fs_inode.c)
 inodenode *get_tsk_inodes(const char vol[], char dir[]);
 // inodenode *tsk_walk_path(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll);
+inodenode *tsk_walk_path_by_pwd(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll); // testing shit
 inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll);
 void inode_to_pwd(const char vol[], TSK_INUM_T dir_ino_num);
 

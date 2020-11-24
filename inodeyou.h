@@ -16,8 +16,11 @@
 #include "inodelinkedlist.h"
 #include "tsk_inode.h"
 
+// Buffer sizes
 #define BUF_LEN 100
 #define BUF_LEN_LARGE 500
+
+// Messages
 #define USAGE "Usage: ./inodeyou-c volume mountpoint [directory] (./inodeyou-c /dev/sda1 / /)\n"
 #define CHECK_ROOT_ERR_MSG "You must be root to perform this function!\n"
 #define SAFE_RESULT "\n[OK] There are no files or directiories that are being currently hidden by a rootkit.\n"
@@ -28,6 +31,9 @@
 
 #define file_err_msg(msg) \
     printf("Error: File %s does not exist.\n", msg);
+
+// Flag to enable recursive functionality. Set to 0 for no recrsive functionality.
+#define RECURSIVE_TEST 1
 
 // For calcualting time taken
 double calculate_time(const struct rusage *b, const struct rusage *a);

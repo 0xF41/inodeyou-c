@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        strncpy(root, "/", 2); // Default is "/". "/home/fai"
+        strncpy(root, "/", 2); // Default is "/". "/home/user1"
     }
 
     // Timing test
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     // Print out arguments used in current scan
     printf("======== INODEYOU-C =========\n");
-    printf("Volume: %s\nMount Point: %s\nStarting Directiory: %s\n", volume, mount_point, root);
+    printf("Volume: %s\nMount Point: %s\nStarting Directiory: %s\nRECURSIVE_TEST: %d", volume, mount_point, root, RECURSIVE_TEST);
 
     // Output of method 1 and 2 stored in separate inodenode linked lists
     inodenode *tsk_ll_head = NULL;

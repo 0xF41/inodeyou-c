@@ -1,0 +1,7 @@
+======== INODEYOU-C =========
+Volume: /dev/sdb
+Mount Point: /home/fai
+Starting Directiory: /
+RECURSIVE_TEST: 1(back)
+reached here
+Error: Unable to read directory //mnt/c/$Recycle.Bin/S-1-5-18

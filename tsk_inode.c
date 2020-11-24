@@ -27,43 +27,34 @@ inodenode *get_tsk_inodes(const char vol[], char dir[])
     }
 
     // Finds inode number (dir_inode_num) of dir (/home/user1/)
-    TSK_INUM_T dir_inode_num;
-    tsk_fs_ifind_path(fs, dir, &dir_inode_num);
-    // tsk_ll = tsk_walk_path(fs, dir, tsk_ll);
-    tsk_ll = tsk_walk_path(fs, dir_inode_num, tsk_ll);
-
-    // fclose(datafile);
+    if (TEST_BY_INODE)
+    {
+        TSK_INUM_T dir_inode_num;
+        tsk_fs_ifind_path(fs, dir, &dir_inode_num);
+        tsk_ll = tsk_walk_path(fs, dir_inode_num, tsk_ll);
+    }
+    else
+    {
+        tsk_ll = tsk_walk_path_by_pwd(fs, dir, tsk_ll);
+    }
 
     // Cleanup
     tsk_fs_close(fs);
 
     tsk_img_close(img);
+    // printf("reached here\n");
 
     return tsk_ll;
 }
 
-// inodenode *tsk_walk_path_v2(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
-// {
-//     TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
-//     if (cur == NULL)
-//     {
-//         exit(1);
-//     }
-
-//     TSK_FS_FILE *dirent = NULL;
-
-//     return NULL;
-// }
-
 // Returns linked list of inodes found by tsk functions
-//inodenode *tsk_walk_path(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
 inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk_ll)
 {
     TSK_FS_DIR *cur = tsk_fs_dir_open_meta(fs, dir_ino_num);
-    // TSK_FS_DIR *cur = tsk_fs_dir_open(fs, path);
+
     if (cur == NULL)
     {
-        // printf("Error: Falied to open inode number %lu", dir_ino_num);
+        printf("Error: Falied to open inode number %lu", dir_ino_num);
         exit(1);
     }
 
@@ -93,6 +84,11 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
         //     }
         // }
 
+        if (dir_ino_num == 68661)
+        {
+            printf("8=======D i: %ld, n: %ld, cur->addr: %ld, dir_ino_num: %ld\n", i, n, cur->addr, dir_ino_num);
+        }
+
         if (!strcmp(tsk_dirent->name->name, ".") || !strcmp(tsk_dirent->name->name, ".."))
         {
             // . or ..
@@ -106,31 +102,114 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
         }
-        // else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR || tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
-        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
+        // else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR && tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
+        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR && !strcmp(tsk_dirent->name->name, "$OrphanFiles"))
         {
             // Directory
+
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
-            // Uncomment for recursive funciton to serach through directories recursively (gives ssegfault)
-            // char new_path[BUF_LEN_LARGE];
-            // sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
-            // tsk_ll = tsk_walk_path(fs, new_path, tsk_ll);
-            // tsk_ll = tsk_walk_path(fs, inode_num, tsk_ll);
+
+            // Weird bug troubleshoot
+            printf("type: %d | name: %s | ", tsk_dirent->meta->type, tsk_dirent->name->name);
+            printf("inode_num: %ld | i: %ld| n: %ld | dir_ino_num: %ld\n", inode_num, i, n, dir_ino_num);
+            // Recursive functionality (gives ssegfault)
+            if (RECURSIVE_TEST)
+            {
+                printf("(into)\n");
+                // char new_path[BUF_LEN_LARGE];
+                // sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
+                // tsk_ll = tsk_walk_path(fs, new_path, tsk_ll);
+                printf("inode_num: %ld before entering tsk_\n", inode_num);
+                tsk_ll = tsk_walk_path(fs, inode_num, tsk_ll);
+            }
         }
 
         tsk_fs_file_close(tsk_dirent);
-        if (i == (n - 1))
-        {
-            tsk_fs_dir_close(cur);
-        }
+        // if (i == (n - 1))
+        // {
+        //     tsk_fs_dir_close(cur);
+        // }
         // Debug output
         // printf("here %s | %d | %d | %d | %d | %p\n", tsk_dirent->name->name, tsk_dirent->name->type, TSK_FS_NAME_TYPE_REG, tsk_dirent->meta->type, TSK_FS_META_TYPE_REG, NULL);
     }
 
     // Cleanup
-    // tsk_fs_dir_close(cur);
+    tsk_fs_dir_close(cur);
 
+    printf("(back)\n");
+    return tsk_ll;
+}
+
+// Returns linked list of inodes found by tsk functions
+inodenode *tsk_walk_path_by_pwd(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
+{
+    TSK_FS_DIR *cur = tsk_fs_dir_open(fs, path);
+    if (cur == NULL)
+    {
+        // printf("Error: Falied to open inode number %lu", dir_ino_num);
+        exit(1);
+    }
+
+    TSK_FS_FILE *tsk_dirent = NULL;
+    TSK_INUM_T inode_num = -1;
+
+    // tsk_fs_dir_getsize() returns number inodes in current directory
+    for (size_t i = 0, n = tsk_fs_dir_getsize(cur); i < n; i++)
+    {
+        inode_num = -1;
+        tsk_dirent = tsk_fs_dir_get(cur, i); // Get current inode
+        if (tsk_dirent == NULL)
+        {
+            printf("Error: Failed to get directory entry (index %li, %s)\n", i, tsk_dirent->name->name);
+            exit(1);
+        }
+
+        if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
+        {
+            // Check if file is recently deleted, if it is, skip.
+            // printf("%ld", inode_num);
+            tsk_fs_file_close(tsk_dirent);
+            continue;
+        }
+        if (!strcmp(tsk_dirent->name->name, ".") || !strcmp(tsk_dirent->name->name, ".."))
+        {
+            // . or ..
+            tsk_fs_file_close(tsk_dirent);
+            continue;
+        }
+        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_REG)
+        {
+            // Regular file
+            inode_num = tsk_dirent->meta->addr;
+            tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
+        }
+        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
+        {
+            // Directory
+            inode_num = tsk_dirent->meta->addr;
+            tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
+
+            // Weird bug troubleshoot
+            printf("type: %d | name: %s | ", tsk_dirent->meta->type, tsk_dirent->name->name);
+            printf("inode_num: %ld | i: %ld| n: %ld | path: %s\n", inode_num, i, n, path);
+            // Recursive functionality (gives ssegfault)
+            if (RECURSIVE_TEST)
+            {
+                printf("(into)\n");
+                char new_path[BUF_LEN_LARGE];
+                sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
+                printf("new_path: %s before entering tsk_\n", new_path);
+                tsk_ll = tsk_walk_path_by_pwd(fs, new_path, tsk_ll);
+            }
+        }
+        tsk_fs_file_close(tsk_dirent);
+    }
+
+    // Cleanup
+    tsk_fs_dir_close(cur);
+
+    printf("(back)\n");
     return tsk_ll;
 }
 
