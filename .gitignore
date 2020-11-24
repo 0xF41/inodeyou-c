@@ -3,4 +3,4 @@ tsk_inodes.txt
 test.c
 inodeyou
 .vscode
-*output*.txt
+outputdir
