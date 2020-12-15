@@ -30,8 +30,8 @@ inodenode *fs_walk_path(const char path[], inodenode *fs_ll)
     DIR *folder = opendir(path);
     if (folder == NULL)
     {
-        printf("Error: Unable to read directory %s", path);
-        exit(1);
+        printf("Error: Unable to read directory (%s)", path);
+        return fs_ll;
     }
 
     struct dirent *entry = NULL;

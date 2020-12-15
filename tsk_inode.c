@@ -81,11 +81,6 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             continue;
         }
 
-        // if (dir_ino_num == 68661)
-        // {
-        //     printf("8=======D i: %ld, n: %ld, cur->addr: %ld, dir_ino_num: %ld\n", i, n, cur->addr, dir_ino_num);
-        // }
-
         if (!strcmp(tsk_dirent->name->name, ".") || !strcmp(tsk_dirent->name->name, ".."))
         {
             // . or ..
