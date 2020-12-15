@@ -84,10 +84,10 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
         //     }
         // }
 
-        if (dir_ino_num == 68661)
-        {
-            printf("8=======D i: %ld, n: %ld, cur->addr: %ld, dir_ino_num: %ld\n", i, n, cur->addr, dir_ino_num);
-        }
+        // if (dir_ino_num == 68661)
+        // {
+        //     printf("8=======D i: %ld, n: %ld, cur->addr: %ld, dir_ino_num: %ld\n", i, n, cur->addr, dir_ino_num);
+        // }
 
         if (!strcmp(tsk_dirent->name->name, ".") || !strcmp(tsk_dirent->name->name, ".."))
         {
@@ -103,10 +103,9 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
         }
         // else if (tsk_dirent->name->type == TSK_FS_NAME_TYPE_DIR && tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR)
-        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR && !strcmp(tsk_dirent->name->name, "$OrphanFiles"))
+        else if (tsk_dirent->meta->type == TSK_FS_META_TYPE_DIR && strcmp(tsk_dirent->name->name, "$OrphanFiles") != 0)
         {
             // Directory
-
             inode_num = tsk_dirent->meta->addr;
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
 
@@ -164,7 +163,6 @@ inodenode *tsk_walk_path_by_pwd(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
             printf("Error: Failed to get directory entry (index %li, %s)\n", i, tsk_dirent->name->name);
             exit(1);
         }
-
         if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
         {
             // Check if file is recently deleted, if it is, skip.
@@ -240,8 +238,8 @@ void inode_to_pwd(const char vol[], TSK_INUM_T dir_ino_num)
     // Prints out pwd of inode number
     my_tsk_fs_ffind(fs, (TSK_FS_FFIND_FLAG_ENUM)ffind_flags, dir_ino_num, type, type_used, id, id_used, (TSK_FS_DIR_WALK_FLAG_ENUM)dir_walk_flags);
     // Cleanup
-    tsk_img_close(img);
     tsk_fs_close(fs);
+    tsk_img_close(img);
 }
 
 // My version of ffind command

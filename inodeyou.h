@@ -33,7 +33,7 @@
     printf("Error: File %s does not exist.\n", msg);
 
 // Flag to enable recursive functionality. Set to 0 for no recrsive functionality.
-#define RECURSIVE_TEST 1
+#define RECURSIVE_TEST 0
 
 // For calcualting time taken
 double calculate_time(const struct rusage *b, const struct rusage *a);
