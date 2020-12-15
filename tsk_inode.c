@@ -72,16 +72,13 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             exit(1);
         }
 
-        // Produces memory leak
-        if (tsk_dirent->meta->addr == tsk_dirent->name->meta_addr)
+        // Memory leak?
+        if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
         {
-            if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
-            {
-                // Check if file is recently deleted, if it is, skip.
-                // printf("%ld", inode_num);
-                tsk_fs_file_close(tsk_dirent);
-                continue;
-            }
+            // Check if file is recently deleted, if it is, skip.
+            // printf("%ld", inode_num);
+            tsk_fs_file_close(tsk_dirent);
+            continue;
         }
 
         // if (dir_ino_num == 68661)
@@ -110,12 +107,12 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
 
             // Weird bug troubleshoot
-            printf("type: %d | name: %s | ", tsk_dirent->meta->type, tsk_dirent->name->name);
-            printf("inode_num: %ld | i: %ld| n: %ld | dir_ino_num: %ld\n", inode_num, i, n, dir_ino_num);
+            // printf("type: %d | name: %s | ", tsk_dirent->meta->type, tsk_dirent->name->name);
+            // printf("inode_num: %ld | i: %ld| n: %ld | dir_ino_num: %ld\n", inode_num, i, n, dir_ino_num);
             // Recursive functionality (gives ssegfault)
             if (RECURSIVE_TEST)
             {
-                printf("inode_num: %ld before entering tsk_\n", inode_num);
+                // printf("inode_num: %ld before entering tsk_\n", inode_num);
                 tsk_ll = tsk_walk_path(fs, inode_num, tsk_ll);
             }
         }
@@ -180,8 +177,8 @@ inodenode *tsk_walk_path_by_pwd(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
             tsk_ll = insert_inode_ll(tsk_ll, (long)inode_num);
 
             // Weird bug troubleshoot
-            printf("type: %d | name: %s | ", tsk_dirent->meta->type, tsk_dirent->name->name);
-            printf("inode_num: %ld | i: %ld| n: %ld | path: %s\n", inode_num, i, n, path);
+            // printf("type: %d | name: %s | ", tsk_dirent->meta->type, tsk_dirent->name->name);
+            // printf("inode_num: %ld | i: %ld| n: %ld | path: %s\n", inode_num, i, n, path);
             // Recursive functionality (gives ssegfault)
             if (RECURSIVE_TEST)
             {
