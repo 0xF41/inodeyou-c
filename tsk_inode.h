@@ -10,7 +10,7 @@
 
 #include "inodelinkedlist.h"
 
-#define TEST_BY_INODE 0
+#define TEST_BY_INODE 1
 
 // For my ffind functionality in tsk_inode.c
 typedef struct

@@ -73,16 +73,16 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
         }
 
         // Produces memory leak
-        // if (tsk_dirent->meta->addr == tsk_dirent->name->meta_addr)
-        // {
-        //     if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
-        //     {
-        //         // Check if file is recently deleted, if it is, skip.
-        //         // printf("%ld", inode_num);
-        //         tsk_fs_file_close(tsk_dirent);
-        //         continue;
-        //     }
-        // }
+        if (tsk_dirent->meta->addr == tsk_dirent->name->meta_addr)
+        {
+            if (tsk_dirent->name->flags & TSK_FS_NAME_FLAG_UNALLOC)
+            {
+                // Check if file is recently deleted, if it is, skip.
+                // printf("%ld", inode_num);
+                tsk_fs_file_close(tsk_dirent);
+                continue;
+            }
+        }
 
         // if (dir_ino_num == 68661)
         // {
@@ -115,20 +115,12 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
             // Recursive functionality (gives ssegfault)
             if (RECURSIVE_TEST)
             {
-                printf("(into)\n");
-                // char new_path[BUF_LEN_LARGE];
-                // sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
-                // tsk_ll = tsk_walk_path(fs, new_path, tsk_ll);
                 printf("inode_num: %ld before entering tsk_\n", inode_num);
                 tsk_ll = tsk_walk_path(fs, inode_num, tsk_ll);
             }
         }
 
         tsk_fs_file_close(tsk_dirent);
-        // if (i == (n - 1))
-        // {
-        //     tsk_fs_dir_close(cur);
-        // }
         // Debug output
         // printf("here %s | %d | %d | %d | %d | %p\n", tsk_dirent->name->name, tsk_dirent->name->type, TSK_FS_NAME_TYPE_REG, tsk_dirent->meta->type, TSK_FS_META_TYPE_REG, NULL);
     }
@@ -136,7 +128,6 @@ inodenode *tsk_walk_path(TSK_FS_INFO *fs, TSK_INUM_T dir_ino_num, inodenode *tsk
     // Cleanup
     tsk_fs_dir_close(cur);
 
-    printf("(back)\n");
     return tsk_ll;
 }
 
@@ -194,10 +185,10 @@ inodenode *tsk_walk_path_by_pwd(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
             // Recursive functionality (gives ssegfault)
             if (RECURSIVE_TEST)
             {
-                printf("(into)\n");
+                // printf("(into)\n");
                 char new_path[BUF_LEN_LARGE];
                 sprintf(new_path, "%s/%s", path, tsk_dirent->name->name);
-                printf("new_path: %s before entering tsk_\n", new_path);
+                // printf("new_path: %s before entering tsk_\n", new_path);
                 tsk_ll = tsk_walk_path_by_pwd(fs, new_path, tsk_ll);
             }
         }
@@ -207,7 +198,7 @@ inodenode *tsk_walk_path_by_pwd(TSK_FS_INFO *fs, char path[], inodenode *tsk_ll)
     // Cleanup
     tsk_fs_dir_close(cur);
 
-    printf("(back)\n");
+    // printf("(back)\n");
     return tsk_ll;
 }
 
