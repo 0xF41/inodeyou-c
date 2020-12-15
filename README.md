@@ -11,14 +11,16 @@ Adapted from inodeyou:
 - http://www.unixist.com/security/detecting-hidden-files/index.html (inodeyou documentation)
 - https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py (inodeyou repo)
 
+**Note: This program is made for experiemental purposes and may produce a large number of false positives. Results given by this program may NOT be 100% representative**
+
 ## Features
-- Detects regular inodes hidden by working rootkits such as Diamorphine, Nurupo, LilyOfTheValley, Nuk3gh0st, and Reptile. (Rootkits that work on kernel 4.x)
+- Detects regular inodes hidden by rootkits ([Diamorphine](https://github.com/m0nad/Diamorphine), [Nurupo](https://github.com/nurupo/rootkit), [LilyOfTheValley](https://github.com/En14c/LilyOfTheValley), [Nuk3gh0st](https://github.com/ropch4ins/Nuk3Gh0st), [Reptile](https://github.com/f0rb1dd3n/Reptile))
 - Works well on directories such as /home and /etc
 - Tested on Ubuntu 16.04 LTS (64-bit)
 
 ### Limitations
-- Buggy on some directories like /run and /lib64
-- False positive of recently deleted inodes show due to tsk memory leaks
+- Buggy on some directories like /run and /lib64 which creates false positives
+- Some TSK functions have memory leaks which may create unexpected results
 - Does not detect special files such as file sockets, symbolic links, etc. 
 - Only works on ext2/3/4 file system types, not compatible with xfs and other types. 
 
