@@ -1,5 +1,5 @@
 # inodeyou-c
-inodeyou-c is a userspace C program adapted from [inodeyou](https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py) that uses a simple cross-based check to detect inodes that are hidden by Linux rootkit(s). 
+inodeyou-c is a userspace C program adapted from [inodeyou](https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py) that uses a simple cross-based check to detect inodes that are hidden by Linux rootkit(s) or malware(s). 
 
 inodeyou-c uses The Sleuth Kit (TSK) C library to compare the view of the filesystem inodes by two methods:
 1) Finding inodes visible to the disk's view of the file system (with read()) via TSK library
@@ -35,7 +35,7 @@ sudo make
 ```
 
 ## Usage
-The example command scans for hidden inodes on /home/user1, whereby the /home/user1 is on the root directory mounted on /dev/sda1
+The example command scans for hidden inodes from /home/user1 recursively, whereby /home/user1 is on the root directory mountpoint on the /dev/sda1 volume
 ```
 Usage: sudo ./inodeyou-c volume mountpoint [directory] 
 Example: ./inodeyou-c /dev/sda1 / /home/user1
