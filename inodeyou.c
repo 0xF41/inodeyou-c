@@ -2,11 +2,6 @@
 
 // Usage: "sudo ./inodeyou /dev/sda1 / /home/user1"
 
-// Bugs to address
-// - Find better way to compare both methods
-// - Code recursive functionality in method 2 fs_inode.c
-// - Put comparison of both methods in another function
-
 int main(int argc, char *argv[])
 {
     // Check proper arguments
@@ -130,19 +125,19 @@ int main(int argc, char *argv[])
             }
         }
     }
-    else if (fs_ll_length >= tsk_ll_length)
-    {
-        for (inodenode *tmp = fs_ll_head; tmp != NULL; tmp = tmp->next)
-        {
-            if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
-            {
-                printf("[WARNING] Missing inode %ld (", tmp->num);
-                inode_to_pwd(volume, tmp->num);
-                printf(")\n");
-                evil_hit++;
-            }
-        }
-    }
+    // else if (fs_ll_length >= tsk_ll_length)
+    // {
+    //     for (inodenode *tmp = fs_ll_head; tmp != NULL; tmp = tmp->next)
+    //     {
+    //         if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
+    //         {
+    //             printf("[WARNING] Missing inode %ld (", tmp->num);
+    //             inode_to_pwd(volume, tmp->num);
+    //             printf(")\n");
+    //             evil_hit++;
+    //         }
+    //     }
+    // }
 
     // Calculate time taken to find anomalies
     getrusage(RUSAGE_SELF, &after);
