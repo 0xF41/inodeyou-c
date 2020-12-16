@@ -1,5 +1,5 @@
 # inodeyou-c
-inodeyou-c is a userspace C program adapted from [inodeyou](https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py) that uses a simple cross-based check to detect inodes that are hidden by Linux rootkit(s). 
+inodeyou-c is a userspace C program adapted from [inodeyou](https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py) that uses a simple cross-based check to detect inodes that are hidden by Linux rootkit(s) or malware(s). 
 
 inodeyou-c uses The Sleuth Kit (TSK) C library to compare the view of the filesystem inodes by two methods:
 1) Finding inodes visible to the disk's view of the file system (with read()) via TSK library
@@ -11,14 +11,16 @@ Adapted from inodeyou:
 - http://www.unixist.com/security/detecting-hidden-files/index.html (inodeyou documentation)
 - https://bitbucket.org/unixist/inodeyou/src/master/inodeyou.py (inodeyou repo)
 
+**Note: This program is made for experiemental purposes and may produce a large number of false positives. Results given by this program may NOT be 100% representative**
+
 ## Features
-- Detects regular inodes hidden by working rootkits such as Diamorphine, Nurupo, LilyOfTheValley, Nuk3gh0st, and Reptile. (Rootkits that work on kernel 4.x)
+- Detects regular inodes hidden by rootkits ([Diamorphine](https://github.com/m0nad/Diamorphine), [Nurupo](https://github.com/nurupo/rootkit), [LilyOfTheValley](https://github.com/En14c/LilyOfTheValley), [Nuk3gh0st](https://github.com/ropch4ins/Nuk3Gh0st), [Reptile](https://github.com/f0rb1dd3n/Reptile))
 - Works well on directories such as /home and /etc
 - Tested on Ubuntu 16.04 LTS (64-bit)
 
 ### Limitations
-- Buggy on some directories like /run and /lib64
-- False positive of recently deleted inodes show due to tsk memory leaks
+- Buggy on some directories like /run and /lib64 which creates false positives
+- Some TSK functions have memory leaks which may create unexpected results
 - Does not detect special files such as file sockets, symbolic links, etc. 
 - Only works on ext2/3/4 file system types, not compatible with xfs and other types. 
 
@@ -35,7 +37,7 @@ sudo make
 ```
 
 ## Usage
-The example command scans for hidden inodes on /home/user1, whereby the /home/user1 is on the root directory mounted on /dev/sda1
+The example command scans for hidden inodes from /home/user1 recursively, whereby /home/user1 is on the root directory mountpoint on the /dev/sda1 volume
 ```
 Usage: sudo ./inodeyou-c volume mountpoint [directory] 
 Example: ./inodeyou-c /dev/sda1 / /home/user1
