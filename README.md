@@ -42,3 +42,6 @@ The example command scans for hidden inodes from /home/user1 recursively, whereb
 Usage: sudo ./inodeyou-c volume mountpoint [directory] 
 Example: ./inodeyou-c /dev/sda1 / /home/user1
 ```
+In the example below, inodeyou-c has successfully detected a inode (/home/user1/lilyofthevalley2.txt) hidden by the LilyOfTheValley rootkit.
+
+![demo](https://user-images.githubusercontent.com/65337323/102330678-d1be9480-3fc4-11eb-9847-32a573ea244f.PNG)
