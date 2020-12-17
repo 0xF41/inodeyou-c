@@ -20,6 +20,7 @@ Adapted from inodeyou:
 
 ### Limitations
 - Buggy on some directories like /run and /lib64 which creates false positives
+- Runtime of program is O(n^2), where n is the number of inodes found by TSK
 - Some TSK functions have memory leaks which may create unexpected results
 - Does not detect special files such as file sockets, symbolic links, etc. 
 - Only works on ext2/3/4 file system types, not compatible with xfs and other types. 
