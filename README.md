@@ -20,6 +20,7 @@ Adapted from inodeyou:
 
 ### Limitations
 - Buggy on some directories like /run and /lib64 which creates false positives
+- Runtime of program is O(n^2), where n is the number of inodes found by TSK
 - Some TSK functions have memory leaks which may create unexpected results
 - Does not detect special files such as file sockets, symbolic links, etc. 
 - Only works on ext2/3/4 file system types, not compatible with xfs and other types. 
@@ -42,3 +43,6 @@ The example command scans for hidden inodes from /home/user1 recursively, whereb
 Usage: sudo ./inodeyou-c volume mountpoint [directory] 
 Example: ./inodeyou-c /dev/sda1 / /home/user1
 ```
+In the example below, inodeyou-c has successfully detected a inode (/home/user1/lilyofthevalley2.txt) hidden by the LilyOfTheValley rootkit.
+
+![demo](https://user-images.githubusercontent.com/65337323/102330678-d1be9480-3fc4-11eb-9847-32a573ea244f.PNG)
