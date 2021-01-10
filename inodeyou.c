@@ -123,33 +123,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    //if (tsk_ll_length >= fs_ll_length)
-    // {
-    //     for (inodenode *tmp = tsk_ll_head; tmp != NULL; tmp = tmp->next)
-    //     {
-    //         if (find_inode_ll(fs_ll_head, tmp->num) == 0)
-    //         {
-    //             printf("[WARNING] Missing inode %ld (", tmp->num);
-    //             inode_to_pwd(volume, tmp->num);
-    //             printf(")\n");
-    //             evil_hit++;
-    //         }
-    //     }
-    // }
-    // else if (fs_ll_length >= tsk_ll_length)
-    // {
-    //     for (inodenode *tmp = fs_ll_head; tmp != NULL; tmp = tmp->next)
-    //     {
-    //         if (find_inode_ll(tsk_ll_head, tmp->num) == 0)
-    //         {
-    //             printf("[WARNING] Missing inode %ld (", tmp->num);
-    //             inode_to_pwd(volume, tmp->num);
-    //             printf(")\n");
-    //             evil_hit++;
-    //         }
-    //     }
-    // }
-
     // Calculate time taken to find anomalies
     getrusage(RUSAGE_SELF, &after);
     time_compare = calculate_time(&before, &after);
