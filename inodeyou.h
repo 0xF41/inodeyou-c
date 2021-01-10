@@ -21,7 +21,7 @@
 #define BUF_LEN_LARGE 500
 
 // Messages
-#define USAGE "Usage: ./inodeyou-c volume mountpoint [directory] (./inodeyou-c /dev/sda1 / /)\n"
+#define USAGE "Usage: ./inodeyou volume mountpoint [directory] (./inodeyou-c /dev/sda1 / /)\n"
 #define CHECK_ROOT_ERR_MSG "You must be root to perform this function!\n"
 #define SAFE_RESULT "\n[OK] There are no files or directiories that are being currently hidden by a rootkit/trojan.\n"
 #define WARNING_RESULT "\n[WARNING] There are %d files and directories that may be currenty hidden by a rootkit/trojan.\n"
