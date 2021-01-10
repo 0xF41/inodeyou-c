@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     char volume[BUF_LEN];      // '/dev/sda1'
     char mount_point[BUF_LEN]; // '/'
     char root[BUF_LEN];        // '/'
+    char colour_output[BUF_LEN];
     if (argc > 1)
     {
         strncpy(volume, argv[1], strlen(argv[1]) + 1);
@@ -36,6 +37,12 @@ int main(int argc, char *argv[])
     else
     {
         strncpy(root, "/", 2); // Default is "/". "/home/user1"
+    }
+
+    // Optional colour_output. If specified to "nocolour", the output messages will be default.
+    if (argc > 4)
+    {
+        strncpy(colour_output, argv[4], strlen(argv[4]) + 1);
     }
 
     // Timing test
@@ -116,9 +123,16 @@ int main(int argc, char *argv[])
     {
         if (find_inode_ll(fs_ll_head, tmp->num) == 0)
         {
+            // Red color output if fourth argument is missing
+            if (strcmp(colour_output, "nocolour") != 0)
+            {
+                printf("\x1b[1;31m");
+            }
+            // Print missing inode
             printf("[WARNING] Missing inode %ld (", tmp->num);
+            // Prints pwd of given inode
             inode_to_pwd(volume, tmp->num);
-            printf(")\n");
+            printf(")\x1b[0m\n");
             evil_hit++;
         }
     }
@@ -130,12 +144,21 @@ int main(int argc, char *argv[])
     // Report results
     if (evil_hit > 0)
     {
+        if (strcmp(colour_output, "nocolour") != 0)
+        {
+            printf("\x1b[1;31m");
+        }
         printf(WARNING_RESULT, evil_hit);
     }
     else
     {
+        if (strcmp(colour_output, "nocolour") != 0)
+        {
+            printf("\x1b[1;32m");
+        }
         printf(SAFE_RESULT);
     }
+    printf("\x1b[0m");
 
     // Report time taken & benchmark
     printf("\nTIME IN method 1 (get_tsk_inodes):       %.2f s", time_tsk);
