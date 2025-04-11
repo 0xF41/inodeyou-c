@@ -4,7 +4,6 @@
 inodenode *get_fs_inodes(const char path[])
 {
     struct stat stats;
-    // https://codeforwin.org/2018/03/c-program-find-file-properties-using-stat-function.html
 
     if (stat(path, &stats) != 0)
     {
@@ -47,7 +46,6 @@ inodenode *fs_walk_path(const char path[], inodenode *fs_ll)
                 continue;
             }
             inode_number = (int)entry->d_ino;
-            // printf("%s (Dir)\n", entry->d_name);
             fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
 
             // Recursive functionality
@@ -63,7 +61,6 @@ inodenode *fs_walk_path(const char path[], inodenode *fs_ll)
         {
             // Regular file
             inode_number = (int)entry->d_ino;
-            // printf("%s (File)\n", entry->d_name);
             fs_ll = insert_inode_ll(fs_ll, (long)inode_number);
         }
     }

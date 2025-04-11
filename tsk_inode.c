@@ -1,6 +1,6 @@
 #include "inodeyou.h"
 
-// Get list of inodes from tsk functions
+// Returns linked list of inodes found by tsk functions
 inodenode *get_tsk_inodes(const char vol[], char dir[])
 {
     TSK_IMG_INFO *img = tsk_img_open_utf8_sing(vol, TSK_IMG_TYPE_DETECT, 0);
@@ -204,7 +204,7 @@ void inode_to_pwd(const char vol[], TSK_INUM_T dir_ino_num)
     tsk_img_close(img);
 }
 
-// My implementation of ffind command
+// ffind function
 uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
                         TSK_INUM_T a_inode,
                         TSK_FS_ATTR_TYPE_ENUM type, uint8_t type_used,
@@ -223,7 +223,6 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
     {
         if (flags & TSK_FS_DIR_WALK_FLAG_ALLOC)
         {
-            // tsk_printf("/\n");
             printf("\n");
             data.found = 1;
             if (!(lclflags & TSK_FS_FFIND_ALL))
@@ -242,7 +241,7 @@ uint8_t my_tsk_fs_ffind(TSK_FS_INFO *fs, TSK_FS_FFIND_FLAG_ENUM lclflags,
     return 0;
 }
 
-// Works with my_tsk_fs_ffind()
+// Callback function for tsk_fs_dir_walk
 TSK_WALK_RET_ENUM find_file_act(TSK_FS_FILE *fs_file, const char *a_path, void *ptr)
 {
     FFIND_DATA *data = (FFIND_DATA *)ptr;
